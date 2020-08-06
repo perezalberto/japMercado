@@ -31,6 +31,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
     document.addEventListener("submit", (event) => {
         event.preventDefault();
         rememberMe();
-        window.location.replace("/home.html");
+        window.location.replace("home.html");
     });
 });
