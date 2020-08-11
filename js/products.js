@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(PRODUCTS_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             showProductList(resultObj.data);
+            listFilterComponent(resultObj.data, (data) => {
+                showProductList(data);
+            });
         }
     });
 });

@@ -78,6 +78,16 @@ function listFilterComponent(data,listener) {
             maxCount = undefined;
         }
 
-        listener(data);
+        listener(data.filter(elem => {
+            const count = elem.productCount || elem.soldCount;
+            let filterElement = true;
+            if(count < minCount){
+                filterElement = false;
+            }
+            if(count > maxCount){
+                filterElement = false;
+            }
+            return filterElement;
+        }));
     });
 }
