@@ -1,7 +1,3 @@
-//Función que se ejecuta una vez que se haya lanzado el evento de
-//que el documento se encuentra cargado, es decir, se encuentran todos los
-//elementos HTML presentes.
-
 function showProductList(dataList) {
 
     let htmlContentToAppend = "";
@@ -25,16 +21,18 @@ function showProductList(dataList) {
                 </div>
             </a>
             `
-
-        document.getElementById("prod-list-container").innerHTML = htmlContentToAppend;
     }
+    document.getElementById("prod-list-container").innerHTML = htmlContentToAppend;
 }
 
+//Función que se ejecuta una vez que se haya lanzado el evento de
+//que el documento se encuentra cargado, es decir, se encuentran todos los
+//elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(PRODUCTS_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             showProductList(resultObj.data);
-            listFilterComponent(resultObj.data, (data) => {
+            filterComponent(resultObj.data, (data) => {
                 showProductList(data);
             });
         }

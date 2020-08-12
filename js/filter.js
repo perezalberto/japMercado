@@ -30,8 +30,8 @@ function sortList(criteria, array) {
     return result;
 }
 
-// list filter
-function listFilterComponent(data,listener) {
+// filter component
+function filterComponent(data,listener) {
 
     var minCount = undefined;
     var maxCount = undefined;
@@ -79,15 +79,8 @@ function listFilterComponent(data,listener) {
         }
 
         listener(data.filter(elem => {
-            const count = elem.productCount || elem.soldCount;
-            let filterElement = true;
-            if(count < minCount){
-                filterElement = false;
-            }
-            if(count > maxCount){
-                filterElement = false;
-            }
-            return filterElement;
+            const count = parseInt(elem.productCount || elem.soldCount);
+            return !(count < minCount || count > maxCount);
         }));
     });
 }

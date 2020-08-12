@@ -20,9 +20,8 @@ function showCategoriesList(data) {
                 </div>
             </a>
             `
-
-        document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
     }
+    document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
 }
 
 //Función que se ejecuta una vez que se haya lanzado el evento de
@@ -32,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(CATEGORIES_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             showCategoriesList(resultObj.data);
-            listFilterComponent(resultObj.data, (data) => {
+            filterComponent(resultObj.data, (data) => {
                 showCategoriesList(data);
             });
         }
