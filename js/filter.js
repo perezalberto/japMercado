@@ -1,8 +1,9 @@
 const ORDER_ASC_BY_NAME = "AZ";
 const ORDER_DESC_BY_NAME = "ZA";
-const ORDER_BY_PROD_COUNT = "Cant.";
+const ORDER_BY_PROD_COUNT_UP = "CantUp";
+const ORDER_BY_PROD_COUNT_DOWN = "CantDown";
 
-function sortList(criteria, array) {
+function sortList(propCount, criteria, array) {
     let result = [];
     if (criteria === ORDER_ASC_BY_NAME) {
         result = array.sort(function (a, b) {
@@ -16,10 +17,19 @@ function sortList(criteria, array) {
             if (a.name < b.name) { return 1; }
             return 0;
         });
-    } else if (criteria === ORDER_BY_PROD_COUNT) {
+    } else if (criteria === ORDER_BY_PROD_COUNT_UP) {
         result = array.sort(function (a, b) {
-            let aCount = parseInt(a.productCount || a.soldCount);
-            let bCount = parseInt(b.productCount || b.soldCount);
+            let aCount = parseInt(a[propCount]);
+            let bCount = parseInt(b[propCount]);
+
+            if (aCount < bCount) { return -1; }
+            if (aCount > bCount) { return 1; }
+            return 0;
+        });
+    } else if (criteria === ORDER_BY_PROD_COUNT_DOWN) {
+        result = array.sort(function (a, b) {
+            let aCount = parseInt(a[propCount]);
+            let bCount = parseInt(b[propCount]);
 
             if (aCount > bCount) { return -1; }
             if (aCount < bCount) { return 1; }
@@ -31,21 +41,25 @@ function sortList(criteria, array) {
 }
 
 // filter component
-function filterComponent(data,listener) {
+function filterComponent(propCount,data,listener) {
 
     var minCount = undefined;
     var maxCount = undefined;
 
     document.getElementById("sortAsc").addEventListener("click", function () {
-        listener(sortList(ORDER_ASC_BY_NAME,data));
+        listener(sortList(propCount,ORDER_ASC_BY_NAME,data));
     });
 
     document.getElementById("sortDesc").addEventListener("click", function () {
-        listener(sortList(ORDER_DESC_BY_NAME,data));
+        listener(sortList(propCount,ORDER_DESC_BY_NAME,data));
     });
 
-    document.getElementById("sortByCount").addEventListener("click", function () {
-        listener(sortList(ORDER_BY_PROD_COUNT,data));
+    document.getElementById("sortByCountUp").addEventListener("click", function () {
+        listener(sortList(propCount,ORDER_BY_PROD_COUNT_UP,data));
+    });
+
+    document.getElementById("sortByCountDown").addEventListener("click", function () {
+        listener(sortList(propCount,ORDER_BY_PROD_COUNT_DOWN,data));
     });
 
     document.getElementById("clearRangeFilter").addEventListener("click", function () {

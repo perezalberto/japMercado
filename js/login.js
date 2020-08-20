@@ -2,35 +2,37 @@
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
-    const rmCheck = document.getElementById("rememberMe");
-    const emailInput = document.getElementById("email");
-    const passInput = document.getElementById("password");
 
-    if (localStorage.checkbox && localStorage.checkbox !== "") {
-        rmCheck.setAttribute("checked", "checked");
-        emailInput.value = localStorage.username;
-        passInput.value = localStorage.password;
-    } else {
-        rmCheck.removeAttribute("checked");
-        emailInput.value = "";
-        passInput.value = "";
+    if(localStorage.username && localStorage.password) {
+        window.location.href = "index.html"
     }
 
-    const rememberMe = () => {
-        if (rmCheck.checked && emailInput.value !== "") {
-            localStorage.username = emailInput.value;
-            localStorage.password = passInput.value;
-            localStorage.checkbox = rmCheck.value;
-        } else {
-            localStorage.username = "";
-            localStorage.password = "";
-            localStorage.checkbox = "";
-        }
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const msgError = document.getElementById("msg-error");
+
+    const login = () => {
+        localStorage.username = usernameInput.value;
+        localStorage.password = passwordInput.value;
     }
 
     document.addEventListener("submit", (event) => {
         event.preventDefault();
-        rememberMe();
-        window.location.replace("home.html");
+        if(/^[A-Za-z0-9]+(?:[_-][A-Za-z0-9]+)*$/.test(usernameInput.value)){
+            if(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(passwordInput.value)){
+                login();
+                window.location.replace("index.html");
+            }else{
+                msgError.innerHTML = "Contraseña no válida: Mínimo ocho caracteres, al menos una letra y un número";
+                msgError.style.display = "block";
+            }
+        }else{
+            msgError.innerHTML = "Nombre de usuario no válido: solo números, letras y guiones. No puede comenzar ni terminar con guiones";
+            msgError.style.display = "block";
+        }
+    });
+
+    document.getElementById('password').addEventListener('change',(event) => {
+        msgError.style.display = "none";
     });
 });

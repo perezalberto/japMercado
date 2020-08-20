@@ -15,8 +15,8 @@ function showProductList(dataList) {
                             <h4 class="mb-1">`+ product.name + `</h4>
                             <small class="text-muted">` + product.soldCount + ` artículos</small>
                         </div>
-
                         <p class="mb-1">` + product.description + `</p>
+                        <h4 class="my-3">` + product.currency + ' ' + product.cost + `</h4>
                     </div>
                 </div>
             </a>
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(PRODUCTS_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             showProductList(resultObj.data);
-            filterComponent(resultObj.data, (data) => {
+            filterComponent('cost', resultObj.data, (data) => {
                 showProductList(data);
             });
         }
