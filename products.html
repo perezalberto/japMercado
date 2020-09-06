@@ -41,23 +41,22 @@
       <div class="row">
         <div class="col text-right">
           <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
-            <label class="btn btn-light active" id="sortAsc">
-              <input type="radio" name="options" autocomplete="off" checked>A-Z
-            </label>
-            <label class="btn btn-light" id="sortDesc">
-              <input type="radio" name="options" autocomplete="off">Z-A
-            </label>
-            <label class="btn btn-light" id="sortByCountDown">
+            <label class="btn btn-light" id="sortByPriceDown">
               <input type="radio" name="options" autocomplete="off"><i class="fas fa-sort-amount-down mr-1"></i>$
             </label>
-            <label class="btn btn-light" id="sortByCountUp">
+            <label class="btn btn-light" id="sortByPriceUp">
               <input type="radio" name="options" autocomplete="off"><i class="fas fa-sort-amount-up mr-1"></i>$
+            </label>
+            <label class="btn btn-light" id="sortBySold">
+              <input type="radio" name="options" autocomplete="off"><i class="fas fa-sort-amount-up mr-1"></i>Relevancia
             </label>
           </div>
         </div>
       </div>
       <div class="row justify-content-end">
-        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <input class="form-control" type="text" placeholder="Buscar" id="searchTextInput">
+        </div>
         <div class="col-md-6 col-sm-12 mb-1 container">
           <div class="row container p-0 m-0">
             <div class="col">

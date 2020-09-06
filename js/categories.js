@@ -24,14 +24,93 @@ function showCategoriesList(data) {
     document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
 }
 
+
+const filterConfig = [
+    {
+        clickId: "sortByCountUp",
+        action: (list) => {
+            list.sort({
+                key:{
+                    name: "productCount",
+                    type: Number
+                },
+                mode:ORDER_ASC
+            });
+        }
+    },
+    {
+        clickId: "sortByCountDown",
+        action: (list) => {
+            list.sort({
+                key:{
+                    name: "productCount",
+                    type: Number
+                },
+                mode:ORDER_DESC
+            });
+        }
+    },
+    {
+        clickId: "sortDesc",
+        action: (list) => {
+            list.sort({
+                key:{
+                    name: "name",
+                    type: String
+                },
+                mode:ORDER_DESC
+            });
+        }
+    },
+    {
+        clickId: "sortAsc",
+        action: (list) => {
+            list.sort({
+                key:{
+                    name: "name",
+                    type: String
+                },
+                mode:ORDER_ASC
+            });
+        }
+    },
+    {
+        clickId: "rangeFilterCount",
+        action: (list) => {
+            list.reset();
+            list.filterNum({
+                key: "productCount",
+                filters: [
+                    {
+                        type: FILTER_NUM_MAX,
+                        value: () => document.getElementById('rangeFilterCountMax').value
+                    },
+                    {
+                        type: FILTER_NUM_MIN,
+                        value: () => document.getElementById('rangeFilterCountMin').value
+                    }
+                ]
+            });
+        }
+    },
+    {
+        clickId: "clearRangeFilter",
+        action: (list) => {
+            document.getElementById('rangeFilterCountMin').value = "";
+            document.getElementById('rangeFilterCountMax').value = "";
+            list.reset();
+        }
+    }
+];
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
-    getJSONData(CATEGORIES_URL).then(function (resultObj) {
+    getJSONData(CATEGORIES_URL).then(resultObj => {
         if (resultObj.status === "ok") {
             showCategoriesList(resultObj.data);
-            filterComponent('productCount',resultObj.data, (data) => {
+            filterComponent(resultObj.data, filterConfig, data => {
                 showCategoriesList(data);
             });
         }

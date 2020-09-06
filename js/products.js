@@ -25,14 +25,83 @@ function showProductList(dataList) {
     document.getElementById("prod-list-container").innerHTML = htmlContentToAppend;
 }
 
+const filterConfig = [
+    {
+        clickId: "sortByPriceUp",
+        action: (list) => {
+            list.sort({
+                key:{
+                    name: "cost",
+                    type: Number
+                },
+                mode:ORDER_ASC
+            });
+        }
+    },
+    {
+        clickId: "sortByPriceDown",
+        action: (list) => {
+            list.sort({
+                key:{
+                    name: "cost",
+                    type: Number
+                },
+                mode:ORDER_DESC
+            });
+        }
+    },
+    {
+        clickId: "sortBySold",
+        action: (list) => {
+            list.sort({
+                key:{
+                    name: "soldCount",
+                    type: Number
+                },
+                mode:ORDER_DESC
+            });
+        }
+    },
+    {
+        clickId: "rangeFilterCount",
+        action: (list) => {
+            list.reset();
+            list.filterNum({
+                key: "soldCount",
+                filters: [
+                    {
+                        type: FILTER_NUM_MAX,
+                        value: () => document.getElementById('rangeFilterCountMax').value
+                    },
+                    {
+                        type: FILTER_NUM_MIN,
+                        value: () => document.getElementById('rangeFilterCountMin').value
+                    }
+                ]
+            });
+        }
+    },
+    {
+        clickId: "clearRangeFilter",
+        action: (list) => {
+            document.getElementById('rangeFilterCountMin').value = "";
+            document.getElementById('rangeFilterCountMax').value = "";
+            list.reset();
+        }
+    }
+];
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
-    getJSONData(PRODUCTS_URL).then(function (resultObj) {
+    getJSONData(PRODUCTS_URL).then(resultObj => {
         if (resultObj.status === "ok") {
             showProductList(resultObj.data);
-            filterComponent('cost', resultObj.data, (data) => {
+            filterComponent(resultObj.data, filterConfig, data => {
+                showProductList(data);
+            });
+            searchComponent(resultObj.data, "searchTextInput", FILTER_STR_START, (data) => {
                 showProductList(data);
             });
         }

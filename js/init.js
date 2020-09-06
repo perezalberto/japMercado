@@ -40,9 +40,36 @@ var getJSONData = function (url) {
     });
 }
 
+/**
+ * Función de star rating
+ * Busca todos los elementos con la clase "star-rating"
+ * e inserta las estrellas correspondientes según dato obtenido de atributo data-rating
+ */
+let starsRating = () => {
+  const ratingElements = document.querySelectorAll('.star-rating');
+  for(let i=0; ratingElements.length > i; i++){
+    let rating = ratingElements[i].dataset.rating;
+    let result = '<span class="text-warning">&#9733;</span>'.repeat(rating<=5?(rating<0?0:rating):5);
+    result += '<span class="text-muted">&#9733;</span>'.repeat(rating<5?(rating<0?5:5-rating):0)
+    ratingElements[i].innerHTML = result;
+  }
+}
+
+let zeroFill = (num,size) => {
+  if(isNaN(num))return String(num);
+  let strNum = String(num);
+  return '0'.repeat(strNum.length<size?(size<0?0:size-strNum.length):0) + strNum;
+}
+
+function getDateTime(){
+  let today = new Date();
+  let date = zeroFill(today.getFullYear(),4)+'-'+zeroFill((today.getMonth()+1),2)+'-'+zeroFill(today.getDate(),2);
+  let time = zeroFill(today.getHours(),2) + ":" + zeroFill(today.getMinutes(),2)+ ":" + zeroFill(today.getSeconds(),2);
+  return date+' '+time;
+}
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
-  
 });

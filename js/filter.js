@@ -1,100 +1,136 @@
-const ORDER_ASC_BY_NAME = "AZ";
-const ORDER_DESC_BY_NAME = "ZA";
-const ORDER_BY_PROD_COUNT_UP = "CantUp";
-const ORDER_BY_PROD_COUNT_DOWN = "CantDown";
+const ORDER_ASC = 100;
+const ORDER_DESC = 101;
 
-function sortList(propCount, criteria, array) {
-    let result = [];
-    if (criteria === ORDER_ASC_BY_NAME) {
-        result = array.sort(function (a, b) {
-            if (a.name < b.name) { return -1; }
-            if (a.name > b.name) { return 1; }
-            return 0;
-        });
-    } else if (criteria === ORDER_DESC_BY_NAME) {
-        result = array.sort(function (a, b) {
-            if (a.name > b.name) { return -1; }
-            if (a.name < b.name) { return 1; }
-            return 0;
-        });
-    } else if (criteria === ORDER_BY_PROD_COUNT_UP) {
-        result = array.sort(function (a, b) {
-            let aCount = parseInt(a[propCount]);
-            let bCount = parseInt(b[propCount]);
+const FILTER_NUM_MIN = 200;
+const FILTER_NUM_MAX = 201;
+const FILTER_STR_START = 202;
+const FILTER_STR_INCLUDE = 203;
 
-            if (aCount < bCount) { return -1; }
-            if (aCount > bCount) { return 1; }
-            return 0;
-        });
-    } else if (criteria === ORDER_BY_PROD_COUNT_DOWN) {
-        result = array.sort(function (a, b) {
-            let aCount = parseInt(a[propCount]);
-            let bCount = parseInt(b[propCount]);
+class JsonList {
+    __data = [];
+    __filtered = [];
 
-            if (aCount > bCount) { return -1; }
-            if (aCount < bCount) { return 1; }
-            return 0;
-        });
+    /**
+     * @param {json data} data 
+     */
+    constructor(data) {
+        this.__data = data;
+        this.__filtered = data;
     }
 
-    return result;
+    /**
+     * @param {key: { name = name of json key, type = Object data type [String, Number]}, mode: [ORDER_ASC, ORDER_DESC]} params 
+     */
+    sort(params) {
+        if (params.mode === ORDER_ASC) {
+            this.__filtered = this.__filtered.sort(function (a, b) {
+                let aVal = params.key.type(a[params.key.name]);
+                let bVal = params.key.type(b[params.key.name]);
+
+                if (aVal < bVal) { return -1; }
+                if (aVal > bVal) { return 1; }
+                return 0;
+            });
+        } else if (params.mode === ORDER_DESC) {
+            this.__filtered = this.__filtered.sort(function (a, b) {
+                let aVal = params.key.type(a[params.key.name]);
+                let bVal = params.key.type(b[params.key.name]);
+
+                if (aVal > bVal) { return -1; }
+                if (aVal < bVal) { return 1; }
+                return 0;
+            });
+        }
+        return this;
+    }
+
+    /**
+     * @param {key: "name of JSON key", filters: [{ type: "filter type [FILTER_NUM_MIN,FILTER_NUM_MAX]", value: "filter value" }]} params 
+     */
+    filterNum(params) {
+        for (let i = 0; params.filters.length > i; i++) {
+            this.__filtered = this.__filtered.filter(elem => {
+                const count = parseInt(elem[params.key]);
+                const filterValue = typeof params.filters[i].value == "function" ? params.filters[i].value() : params.filters[i].value;
+                if (filterValue == 0) return true;
+                if (params.filters[i].type === FILTER_NUM_MIN) {
+                    return !(count < filterValue);
+                } else if (params.filters[i].type === FILTER_NUM_MAX) {
+                    return !(count > filterValue);
+                }
+            });
+        }
+        return this;
+    }
+
+    /**
+     * @param {key: name of JSON key, filters: [{ type: filter type [FILTER_STR_START,FILTER_STR_CONTAINS], value: filter value }]} params 
+     */
+    filterStr(params) {
+        for (let i = 0; params.filters.length > i; i++) {
+            this.__filtered = this.__filtered.filter(elem => {
+                const filterValue = typeof params.filters[i].value == "function" ? params.filters[i].value() : params.filters[i].value;
+                if (filterValue == "") return true;
+                if (params.filters[i].type === FILTER_STR_START) {
+                    return elem[params.key].toLowerCase().startsWith(filterValue.toLowerCase());
+                } else if (params.filters[i].type === FILTER_STR_INCLUDE) {
+                    return elem[params.key].toLowerCase().includes(filterValue.toLowerCase());
+                }
+            });
+        }
+        return this;
+    }
+
+    reset() {
+        this.__filtered = this.__data;
+    }
+
+    getList() {
+        return this.__filtered;
+    }
 }
 
-// filter component
-function filterComponent(propCount,data,listener) {
+/**
+ * @param {json input} data
+ * @param {[{ clickId: "catch an html element by id for click action", action: "what to do when i click" }]} config
+ * @param {listener: "trigger event after filtering"} listener
+ */
+function filterComponent(data, config, listener) {
+    if (!data) return;
+    if (!config && config.length <= 0) return;
 
-    var minCount = undefined;
-    var maxCount = undefined;
+    const listdata = new JsonList(data);
 
-    document.getElementById("sortAsc").addEventListener("click", function () {
-        listener(sortList(propCount,ORDER_ASC_BY_NAME,data));
-    });
+    for (let i = 0; config.length > i; i++) {
+        document.getElementById(config[i].clickId).addEventListener('click', (event) => {
+            event.preventDefault();
+            config[i].action(listdata);
+            listener(listdata.getList());
+        });
+    }
+}
 
-    document.getElementById("sortDesc").addEventListener("click", function () {
-        listener(sortList(propCount,ORDER_DESC_BY_NAME,data));
-    });
 
-    document.getElementById("sortByCountUp").addEventListener("click", function () {
-        listener(sortList(propCount,ORDER_BY_PROD_COUNT_UP,data));
-    });
-
-    document.getElementById("sortByCountDown").addEventListener("click", function () {
-        listener(sortList(propCount,ORDER_BY_PROD_COUNT_DOWN,data));
-    });
-
-    document.getElementById("clearRangeFilter").addEventListener("click", function () {
-        document.getElementById("rangeFilterCountMin").value = "";
-        document.getElementById("rangeFilterCountMax").value = "";
-
-        minCount = undefined;
-        maxCount = undefined;
-
-        listener(data);
-    });
-
-    document.getElementById("rangeFilterCount").addEventListener("click", function () {
-        //Obtengo el mínimo y máximo de los intervalos para filtrar por cantidad
-        //de productos por categoría.
-        minCount = document.getElementById("rangeFilterCountMin").value;
-        maxCount = document.getElementById("rangeFilterCountMax").value;
-
-        if ((minCount != undefined) && (minCount != "") && (parseInt(minCount)) >= 0) {
-            minCount = parseInt(minCount);
-        }
-        else {
-            minCount = undefined;
-        }
-
-        if ((maxCount != undefined) && (maxCount != "") && (parseInt(maxCount)) >= 0) {
-            maxCount = parseInt(maxCount);
-        }
-        else {
-            maxCount = undefined;
-        }
-
-        listener(data.filter(elem => {
-            const count = parseInt(elem.productCount || elem.soldCount);
-            return !(count < minCount || count > maxCount);
-        }));
+/**
+ * 
+ * @param {JSON data} data 
+ * @param {id of HTML input} inputId 
+ * @param {FILTER_STR_START || FILTER_STR_INCLUDE} mode 
+ * @param {listener} listener 
+ */
+function searchComponent(data, inputId, mode, listener) {
+    const listdata = new JsonList(data);
+    document.getElementById(inputId).addEventListener('keyup', () => {
+        listdata.reset();
+        listdata.filterStr({
+            key: "name",
+            filters: [
+                {
+                    type: mode,
+                    value: () => document.getElementById(inputId).value
+                }
+            ]
+        });
+        listener(listdata.getList());
     });
 }
