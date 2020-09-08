@@ -93,7 +93,7 @@ function showComments(comments) {
 
 let refreshComments = (data) => {
     if(!!localStorage['comments']){
-        showComments(data.concat(localStorage['comments']));
+        showComments(data.concat(JSON.parse(localStorage['comments'])));
     }else{
         showComments(data);
     }
