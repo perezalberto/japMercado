@@ -92,7 +92,7 @@ function showComments(comments) {
 }
 
 let refreshComments = (data) => {
-    showComments(data.concat(JSON.parse(localStorage['comments']) || []));
+    showComments(data.concat(!localStorage['comments']?JSON.parse(localStorage['comments']):[]));
     starsRating();
 }
 
