@@ -1,13 +1,13 @@
-function showProductImages(images){
+function showProductImages(images) {
     const productImages = document.getElementById('product-images');
-    
+
     let result = "";
 
-    if(!Array.isArray(images))return;
+    if (!Array.isArray(images)) return;
 
-    for(let i = 0; images.length > i; i++){
+    for (let i = 0; images.length > i; i++) {
         result += `
-        <div class="carousel-item${i == 0 ? " active":""}">
+        <div class="carousel-item${i == 0 ? " active" : ""}">
             <img src="${images[i]}" class="d-block w-100" alt="product image">
         </div>`;
     }
@@ -15,7 +15,7 @@ function showProductImages(images){
     productImages.innerHTML = result
 }
 
-function showProductData(data){
+function showProductData(data) {
     document.getElementById('product-title').innerHTML = data.name;
     document.getElementById('product-price').innerHTML = `${data.currency} ${data.cost}`;
     document.getElementById('product-sold').innerHTML = `${data.soldCount} vendidos`;
@@ -23,13 +23,13 @@ function showProductData(data){
     document.getElementById('product-category').innerHTML = data.category;
 }
 
-function showRelatedProducts(productsId){
+function showRelatedProducts(productsId) {
     const relatedProducts = document.querySelector('#related-products>#product-list');
     getJSONData(PRODUCTS_URL).then(resultObj => {
         let result = '';
-        for(id in productsId){
-            if(resultObj.data.length <= id || id < 0)continue;
-            
+        for (id in productsId) {
+            if (resultObj.data.length <= id || id < 0) continue;
+
             result += `
             <a href="product-info.html">
                 <div class="card">
@@ -44,7 +44,7 @@ function showRelatedProducts(productsId){
     });
 }
 
-function initializeCommentForm(data){
+function initializeCommentForm(data) {
     const form = document.querySelector('#comment-form');
     const text = form.querySelector('[name="text"]');
     const rating = form.querySelector('[name="rating"]');
@@ -54,21 +54,21 @@ function initializeCommentForm(data){
         if (localStorage) {
             var comments;
 
-            if (!localStorage['comments']){
+            if (!localStorage['comments']) {
                 comments = [];
-            }else{
+            } else {
                 comments = JSON.parse(localStorage['comments']);
             }
 
             if (!(comments instanceof Array)) comments = [];
 
-            comments.push({user: localStorage.username || "anonimous", description: text.value, score: rating.value, dateTime: getDateTime()});
-    
+            comments.push({ user: localStorage.username || "anonimous", description: text.value, score: rating.value, dateTime: getDateTime() });
+
             localStorage.setItem('comments', JSON.stringify(comments));
 
             text.value = '';
             rating.value = '';
-        } 
+        }
         refreshComments(data);
     });
 
@@ -77,8 +77,8 @@ function initializeCommentForm(data){
 
 function showComments(comments) {
     let result = '';
-    for(let i = 0; comments.length > i; i++){
-        result +=  `
+    for (let i = 0; comments.length > i; i++) {
+        result += `
         <div class="col-md-12 rounded border p-0 mb-2">
             <div class="border-bottom p-2">
                 <span class="user-name">${comments[i].user}</span>
@@ -92,15 +92,15 @@ function showComments(comments) {
 }
 
 let refreshComments = (data) => {
-    if(!!localStorage['comments']){
+    if (!!localStorage['comments']) {
         showComments(data.concat(JSON.parse(localStorage['comments'])));
-    }else{
+    } else {
         showComments(data);
     }
     starsRating();
 }
 
-document.addEventListener("DOMContentLoaded", function(e){
+document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(PRODUCT_INFO_URL).then(resultObj => {
         showProductImages(resultObj.data.images);
         showProductData(resultObj.data);

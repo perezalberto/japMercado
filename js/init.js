@@ -4,8 +4,11 @@ const CATEGORY_INFO_URL = "https://japdevdep.github.io/ecommerce-api/category/12
 const PRODUCTS_URL = "https://japdevdep.github.io/ecommerce-api/product/all.json";
 const PRODUCT_INFO_URL = "https://japdevdep.github.io/ecommerce-api/product/5678.json";
 const PRODUCT_INFO_COMMENTS_URL = "https://japdevdep.github.io/ecommerce-api/product/5678-comments.json";
-const CART_INFO_URL = "https://japdevdep.github.io/ecommerce-api/cart/987.json";
+//const CART_INFO_URL = "https://japdevdep.github.io/ecommerce-api/cart/987.json";
+const CART_INFO_URL = "https://japdevdep.github.io/ecommerce-api/cart/654.json";
 const CART_BUY_URL = "https://japdevdep.github.io/ecommerce-api/cart/buy.json";
+
+const DOLAR_UYU = 40;
 
 var showSpinner = function () {
     document.getElementById("spinner-wrapper").style.display = "block";
@@ -68,8 +71,21 @@ function getDateTime() {
     return date + ' ' + time;
 }
 
+function startInputsUpDown() {
+    document.addEventListener('click', (e) => {
+        if (e.target && e.target.matches('.numericUpDown .btnDown')) {
+            const parent = e.target.closest('.numericUpDown').querySelector('.textValue');
+            if (parent.innerHTML > 0) parent.innerHTML = parent.innerHTML - 1
+        } else if (e.target && e.target.matches('.numericUpDown .btnUp')) {
+            const parent = e.target.closest('.numericUpDown').querySelector('.textValue');
+            parent.innerHTML = +parent.innerHTML + 1
+        }
+    });
+}
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
+    startInputsUpDown();
 });
