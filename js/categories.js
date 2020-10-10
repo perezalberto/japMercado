@@ -5,7 +5,7 @@ function showCategoriesList(data) {
         let category = data[i];
 
         htmlContentToAppend += `
-            <a href="category-info.html" class="list-group-item list-group-item-action">
+            <a href="category-info.html" class="list-group-item list-group-item-action">Z
                 <div class="row">
                     <div class="col-3">
                         <img src="` + category.imgSrc + `" alt="` + category.description + `" class="img-thumbnail">
@@ -30,11 +30,11 @@ const filterConfig = [
         clickId: "sortByCountUp",
         action: (list) => {
             list.sort({
-                key:{
+                key: {
                     name: "productCount",
                     type: Number
                 },
-                mode:ORDER_ASC
+                mode: ORDER_ASC
             });
         }
     },
@@ -42,11 +42,11 @@ const filterConfig = [
         clickId: "sortByCountDown",
         action: (list) => {
             list.sort({
-                key:{
+                key: {
                     name: "productCount",
                     type: Number
                 },
-                mode:ORDER_DESC
+                mode: ORDER_DESC
             });
         }
     },
@@ -54,11 +54,11 @@ const filterConfig = [
         clickId: "sortDesc",
         action: (list) => {
             list.sort({
-                key:{
+                key: {
                     name: "name",
                     type: String
                 },
-                mode:ORDER_DESC
+                mode: ORDER_DESC
             });
         }
     },
@@ -66,11 +66,11 @@ const filterConfig = [
         clickId: "sortAsc",
         action: (list) => {
             list.sort({
-                key:{
+                key: {
                     name: "name",
                     type: String
                 },
-                mode:ORDER_ASC
+                mode: ORDER_ASC
             });
         }
     },

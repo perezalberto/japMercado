@@ -3,132 +3,132 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <title>eMercado - Todo lo que busques está aquí</title>
-  <link rel="shortcut icon" href="img/icon.svg" type="image/x-icon">
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
-  <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>eMercado - Todo lo que busques está aquí</title>
+    <link rel="shortcut icon" href="img/icon.svg" type="image/x-icon">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
 </head>
 
 <body>
-  <nav class="site-header sticky-top py-1 bg-dark">
-    <div class="container d-flex flex-column flex-md-row justify-content-between">
-      <a class="py-2 d-none d-md-inline-block" href="index.html">Inicio</a>
-      <a class="py-2 d-none d-md-inline-block" href="categories.html">Categorías</a>
-      <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
-      <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
-      <a class="py-2 d-none d-md-inline-block text-white dropdown-toggle" id="dropdownUserMenu" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false" href="#">
-        <i class="fas fa-user mx-1"></i>
-        <span id="username"></span>
-      </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
-        <a class="dropdown-item" id="profile" href="#">Mi perfil</a>
-        <a class="dropdown-item" id="cart" href="cart.html">Mi carrito</a>
-        <a class="dropdown-item" id="logout" href="#">Log out</a>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container py-4" id="product-info">
-    <div class="row">
-      <div class="col-md-12 text-uppercase">categoria &gt; <span id="product-category"></span></div>
-      <div class="col-md-6">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner" id="product-images">
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
+    <nav class="site-header sticky-top py-1 bg-dark">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+            <a class="py-2 d-none d-md-inline-block" href="index.html">Inicio</a>
+            <a class="py-2 d-none d-md-inline-block" href="categories.html">Categorías</a>
+            <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
+            <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
+            <a class="py-2 d-none d-md-inline-block text-white dropdown-toggle" id="dropdownUserMenu"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                <i class="fas fa-user mx-1"></i>
+                <span id="username"></span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
+                <a class="dropdown-item" id="profile" href="#">Mi perfil</a>
+                <a class="dropdown-item" id="cart" href="cart.html">Mi carrito</a>
+                <a class="dropdown-item" id="logout" href="#">Log out</a>
+            </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <h2 id="product-title"></h2>
-        <h1 id="product-price" class="font-weight-bold"></h1>
-        <div id="product-sold" class="pb-3 font-italic"></div>
-        <p id="product-description"></p>
+    </nav>
+
+    <div class="container py-4" id="product-info">
         <div class="row">
-          <div class="col-md-6">
-            <a href="#" class="btn btn-primary col-md-12">COMPRAR</a>
-          </div>
-          <div class="col-md-6">
-            <a href="#" class="btn btn-secondary col-md-12">AGREGAR AL CARRITO</a>
-          </div>
+            <div class="col-md-12 text-uppercase">categoria &gt; <span id="product-category"></span></div>
+            <div class="col-md-6">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" id="product-images">
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2 id="product-title"></h2>
+                <h1 id="product-price" class="font-weight-bold"></h1>
+                <div id="product-sold" class="pb-3 font-italic"></div>
+                <p id="product-description"></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="#" class="btn btn-primary col-md-12">COMPRAR</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="btn btn-secondary col-md-12" id="add-to-cart">AGREGAR AL CARRITO</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="container py-4" id="related-products">
-    <h2>Productos relacionados</h2>
-    <div class="card-columns" id="product-list">
-    </div>
-  </div>
-
-  <div class="container py-4" id="product-comments">
-    <h2>Comentarios</h2>
-    <div class="row m-0" id="comments">
-      <div class="bg-light border rounded p-4 w-100 text-center">
-        Sin comentarios. Sé el primero
-      </div>
-    </div>
-  </div>
-
-  <div class="container py-4 border-top">
-    <form id="comment-form">
-      <div class="form-group">
-        <textarea id="comment-text" rows="5" class="form-control" name="text" required></textarea>
-      </div>
-      <div class="form-row p-1">
-        <div class="form-group">
-          <select class="form-control" id="rating" name="rating" required>
-            <option value="" disabled selected hidden>Seleccionar calificación</option>
-            <option value="1">1 estrella</option>
-            <option value="2">2 estrellas</option>
-            <option value="3">3 estrellas</option>
-            <option value="4">4 estrellas</option>
-            <option value="5">5 estrellas</option>
-          </select>
+    <div class="container py-4" id="related-products">
+        <h2>Productos relacionados</h2>
+        <div class="card-columns" id="product-list">
         </div>
-        <div class="form-group ml-auto">
-          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> ENVIAR</button>
-        </div>
-      </div>
-    </form>
-  </div>
+    </div>
 
-  <footer class="text-muted">
-    <div class="container">
-      <p class="float-right">
-        <a href="#">Volver arriba</a>
-      </p>
-      <p>Este sitio forma parte de Desarrollo Web - JAP - 2020</p>
-      <p>Clickea <a target="_blank" href="Letra.pdf">aquí</a> para descargar la letra del obligatorio.</p>
+    <div class="container py-4" id="product-comments">
+        <h2>Comentarios</h2>
+        <div class="row m-0" id="comments">
+            <div class="bg-light border rounded p-4 w-100 text-center">
+                Sin comentarios. Sé el primero
+            </div>
+        </div>
     </div>
-  </footer>
-  <div id="spinner-wrapper">
-    <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+
+    <div class="container py-4 border-top">
+        <form id="comment-form">
+            <div class="form-group">
+                <textarea id="comment-text" rows="5" class="form-control" name="text" required></textarea>
+            </div>
+            <div class="form-row p-1">
+                <div class="form-group">
+                    <select class="form-control" id="rating" name="rating" required>
+                        <option value="" disabled selected hidden>Seleccionar calificación</option>
+                        <option value="1">1 estrella</option>
+                        <option value="2">2 estrellas</option>
+                        <option value="3">3 estrellas</option>
+                        <option value="4">4 estrellas</option>
+                        <option value="5">5 estrellas</option>
+                    </select>
+                </div>
+                <div class="form-group ml-auto">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> ENVIAR</button>
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
-  <script src="js/auth.js"></script>
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/init.js"></script>
-  <script src="js/product-info.js"></script>
+
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Volver arriba</a>
+            </p>
+            <p>Este sitio forma parte de Desarrollo Web - JAP - 2020</p>
+            <p>Clickea <a target="_blank" href="Letra.pdf">aquí</a> para descargar la letra del obligatorio.</p>
+        </div>
+    </footer>
+    <div id="spinner-wrapper">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/product-info.js"></script>
 </body>
 
 </html>

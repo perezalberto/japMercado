@@ -1,11 +1,11 @@
 function showCartList(data) {
     let htmlContentToAppend = "";
-    for (let i = 0; i < data.articles.length; i++) {
-        let product = data.articles[i];
+    for (let i = 0; i < data.length; i++) {
+        let product = data[i];
         let unitCostUYU = product.currency == 'USD' ? product.unitCost * DOLAR_UYU : product.unitCost;
 
         htmlContentToAppend += `
-            <tr>
+            <tr id="cart-item:${i}">
                 <td class="align-middle">
                     <img src="${product.src}" alt="${product.name}" class="img-fluid" width="100">
                 </td>
@@ -40,11 +40,34 @@ function showCartList(data) {
     document.querySelector("#product-list tbody").innerHTML = htmlContentToAppend;
 }
 
+function removeProductCart(id) {
+    let tempList = JSON.parse(localStorage['cart']);
+    tempList.splice(id, 1);
+    localStorage.setItem('cart', JSON.stringify(tempList));
+}
+
+function updateProductCart(id, { image, currency, name, count, price }) {
+    let tempList = JSON.parse(localStorage['cart']);
+    if (!tempList[id]) return;
+    let newProduct = {
+        name: name || tempList[id].name,
+        count: count || tempList[id].count,
+        unitCost: price || tempList[id].unitCost,
+        currency: currency || tempList[id].currency,
+        src: image || tempList[id].src
+    }
+    tempList[id] = newProduct;
+    localStorage.setItem('cart', JSON.stringify(tempList));
+}
 
 function startRemoveButtons() {
     document.addEventListener('click', (e) => {
         if (e.target && e.target.matches('tr .remove-product, tr .remove-product *')) {
             e.target.closest("tr").remove();
+
+            const productId = e.target.closest("tr").id.split(':')[1];
+
+            removeProductCart(productId);
         }
     });
 }
@@ -62,6 +85,11 @@ function updateProductRow(target) {
     const unitPrice = target.querySelector('.unit-price .price');
     const subtotal = target.querySelector('.subtotal .price');
     const count = target.querySelector('.numericUpDown .textValue');
+
+    const productId = target.id.split(':')[1];
+
+    updateProductCart(productId, { count: count.innerHTML });
+
     subtotal.innerHTML = unitPrice.innerHTML * count.innerHTML;
 }
 
@@ -81,24 +109,37 @@ function updateTotal() {
     total.innerHTML = sum;
 }
 
+function getCartData() {
+    return new Promise((resolve, reject) => {
+        if (!!localStorage['cart']) {
+            resolve(JSON.parse(localStorage['cart']));
+        } else {
+            getJSONData(CART_INFO_URL).then(resultObj => {
+                if (resultObj.status === "ok") {
+                    localStorage.setItem('cart', JSON.stringify(resultObj.data.articles));
+                    resolve(resultObj.data.articles);
+                }
+            });
+        }
+    });
+}
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
 
-    getJSONData(CART_INFO_URL).then(resultObj => {
-        if (resultObj.status === "ok") {
-            showCartList(resultObj.data);
+    getCartData().then(data => {
+        showCartList(data);
 
-            startRemoveButtons();
+        startRemoveButtons();
+        updateProductCount();
+        updateTotal();
+
+        startProductRow((target) => {
+            updateProductRow(target);
             updateProductCount();
             updateTotal();
-
-            startProductRow((target) => {
-                updateProductRow(target);
-                updateProductCount();
-                updateTotal();
-            });
-        }
+        });
     });
 });

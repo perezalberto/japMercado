@@ -100,11 +100,24 @@ let refreshComments = (data) => {
     starsRating();
 }
 
+let setBtnAddToCart = (data) => {
+    document.getElementById('add-to-cart').addEventListener('click', (e) => {
+        addProductCart({
+            image: data.images[0],
+            currency: data.currency,
+            name: data.name,
+            count: 1,
+            price: data.cost
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(PRODUCT_INFO_URL).then(resultObj => {
         showProductImages(resultObj.data.images);
         showProductData(resultObj.data);
         showRelatedProducts(resultObj.data.relatedProducts);
+        setBtnAddToCart(resultObj.data);
     });
 
     getJSONData(PRODUCT_INFO_COMMENTS_URL).then(resultObj => {

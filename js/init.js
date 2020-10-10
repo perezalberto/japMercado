@@ -83,6 +83,19 @@ function startInputsUpDown() {
     });
 }
 
+function addProductCart({ image, currency, name, count, price }) {
+    let tempList = JSON.parse(localStorage['cart']);
+    let newProduct = {
+        name: name,
+        count: count,
+        unitCost: price,
+        currency: currency,
+        src: image
+    }
+    tempList.push(newProduct);
+    localStorage.setItem('cart', JSON.stringify(tempList));
+}
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
