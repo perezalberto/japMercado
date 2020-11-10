@@ -3,109 +3,134 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <title>eMercado - Todo lo que busques está aquí</title>
-  <link rel="shortcut icon" href="img/icon.svg" type="image/x-icon">
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
-  <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>eMercado - Todo lo que busques está aquí</title>
+    <link rel="shortcut icon" href="img/icon.svg" type="image/x-icon">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
 </head>
 
 <body>
-  <nav class="site-header sticky-top py-1 bg-dark">
-    <div class="container d-flex flex-column flex-md-row justify-content-between">
-      <a class="py-2 d-none d-md-inline-block" href="index.html">Inicio</a>
-      <a class="py-2 d-none d-md-inline-block" href="categories.html">Categorías</a>
-      <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
-      <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
-      <a class="py-2 d-none d-md-inline-block text-white dropdown-toggle" id="dropdownUserMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-        <i class="fas fa-user mx-1"></i>
-        <span id="username"></span>
-      </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
-        <a class="dropdown-item" id="profile" href="#">Mi perfil</a>
-        <a class="dropdown-item" id="cart" href="cart.html">Mi carrito</a>
-        <a class="dropdown-item" id="logout" href="#">Log out</a>
-      </div>
-    </div>
-  </nav>
-  <main role="main" class="pb-5">
-    <div class="text-center p-4">
-      <h2>Productos</h2>
-      <p class="lead">Verás aquí todos los productos de la categoria autos.</p>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col text-right">
-          <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
-            <label class="btn btn-light" id="sortByPriceDown">
-              <input type="radio" name="options" autocomplete="off"><i class="fas fa-sort-amount-down mr-1"></i>$
-            </label>
-            <label class="btn btn-light" id="sortByPriceUp">
-              <input type="radio" name="options" autocomplete="off"><i class="fas fa-sort-amount-up mr-1"></i>$
-            </label>
-            <label class="btn btn-light" id="sortBySold">
-              <input type="radio" name="options" autocomplete="off"><i class="fas fa-sort-amount-up mr-1"></i>Relevancia
-            </label>
-          </div>
+    <nav class="navbar navbar-expand-lg navbar-dark py-1 bg-dark">
+        <a class="navbar-brand" href="index.html">
+            <img src="/img/icon.svg" width="30" height="30" alt="" loading="lazy">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto nav-fill w-100">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="categories.html">Categorías</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="products.html">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sell.html">Vender</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="py-2 d-inline-block text-white dropdown-toggle" id="dropdownUserMenu"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                        <i class="fas fa-user mx-1"></i>
+                        <span id="username"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
+                        <a class="dropdown-item" id="profile" href="my-profile.html">Mi perfil</a>
+                        <a class="dropdown-item" id="cart" href="cart.html">Mi carrito</a>
+                        <a class="dropdown-item" id="logout" href="#">Log out</a>
+                    </div>
+                </li>
+            </ul>
         </div>
-      </div>
-      <div class="row justify-content-end">
-        <div class="col-md-6">
-          <input class="form-control" type="text" placeholder="Buscar" id="searchTextInput">
+    </nav>
+    <main role="main" class="pb-5">
+        <div class="text-center p-4">
+            <h2>Productos</h2>
+            <p class="lead">Verás aquí todos los productos de la categoria autos.</p>
         </div>
-        <div class="col-md-6 col-sm-12 mb-1 container">
-          <div class="row container p-0 m-0">
-            <div class="col">
-              <p class="font-weight-normal text-right my-2">Cant.</p>
+        <div class="container">
+            <div class="row">
+                <div class="col text-right mb-4">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-light" id="sortByPriceDown">
+                            <input type="radio" name="options" autocomplete="off"><i
+                                class="fas fa-sort-amount-down mr-1"></i>$
+                        </label>
+                        <label class="btn btn-light" id="sortByPriceUp">
+                            <input type="radio" name="options" autocomplete="off"><i
+                                class="fas fa-sort-amount-up mr-1"></i>$
+                        </label>
+                        <label class="btn btn-light" id="sortBySold">
+                            <input type="radio" name="options" autocomplete="off"><i
+                                class="fas fa-sort-amount-up mr-1"></i>Relevancia
+                        </label>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-              <input class="form-control" type="number" placeholder="min." id="rangeFilterCountMin">
+            <div class="row justify-content-end">
+                <div class="col-md-4 col-12 mb-4">
+                    <div class="row  p-0 m-0">
+                        <div class="col pl-0">
+                            <p class="font-weight-normal text-right my-2">Cant.</p>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="number" placeholder="min." id="rangeFilterCountMin">
+                        </div>
+                        <div class="col pr-0">
+                            <input class="form-control" type="number" placeholder="máx." id="rangeFilterCountMax">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <input class="form-control" type="text" placeholder="Buscar" id="searchTextInput">
+                </div>
+                <div class="col-md-2 col-12 mb-4">
+                    <div class="row container p-0 m-0 btn-group" role="group">
+                        <button class="btn btn-light" id="rangeFilterCount">Filtrar</button>
+                        <button class="btn btn-light" id="clearRangeFilter">Limpiar</button>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-              <input class="form-control" type="number" placeholder="máx." id="rangeFilterCountMax">
-            </div>
-            <div class="col-3 p-0">
-              <div class="btn-group" role="group">
-                <button class="btn btn-light btn-block" id="rangeFilterCount">Filtrar</button>
-                <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="container">
-        <div class="list-group" id="prod-list-container">
         </div>
-      </div>
-  </main>
-  <footer class="text-muted bg-light">
-    <div class="container">
-      <p class="float-right">
-        <a href="#">Volver arriba</a>
-      </p>
-      <p>Este sitio forma parte de Desarrollo Web - JAP - 2020</p>
-      <p>Clickea <a target="_blank" href="Letra.pdf">aquí</a> para descargar la letra del obligatorio.</p>
+        <div class="container">
+            <div class="list-group" id="prod-list-container">
+            </div>
+        </div>
+    </main>
+    <footer class="text-muted bg-light">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Volver arriba</a>
+            </p>
+            <p>Este sitio forma parte de Desarrollo Web - JAP - 2020</p>
+            <p>Clickea <a target="_blank" href="Letra.pdf">aquí</a> para descargar la letra del obligatorio.</p>
+        </div>
+    </footer>
+    <div id="spinner-wrapper">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-  </footer>
-  <div id="spinner-wrapper">
-    <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </div>
-  <script src="js/auth.js"></script>
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/init.js"></script>
-  <script src="js/filter.js"></script>
-  <script src="js/products.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/filter.js"></script>
+    <script src="js/products.js"></script>
 </body>
 
 </html>

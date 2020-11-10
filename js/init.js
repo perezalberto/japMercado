@@ -96,6 +96,32 @@ function addProductCart({ image, currency, name, count, price }) {
     localStorage.setItem('cart', JSON.stringify(tempList));
 }
 
+function showAlert(message, type) {
+    let alertElement = document.querySelector("#alertResult");
+
+    if (!alertElement) {
+        document.body.insertAdjacentHTML('beforeend', `
+            <div class="alert fade alert-${type}" role="alert" id="alertResult" style="z-index:100">
+                <span id="resultSpan">${message}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `);
+    } else {
+        alertElement.remove();
+        showAlert(message, type);
+        return;
+    }
+
+    alertElement = document.querySelector("#alertResult");
+
+    alertElement.classList.add("show");
+    setTimeout(() => {
+        alertElement.classList.remove("show");
+    }, 2000);
+}
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.

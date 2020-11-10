@@ -7,10 +7,10 @@ function showProductList(dataList) {
         htmlContentToAppend += `
             <a href="product-info.html" class="list-group-item list-group-item-action">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-12 col-md-3">
                         <img src="` + product.imgSrc + `" alt="` + product.description + `" class="img-thumbnail">
-                    </div>
-                    <div class="col">
+                    </div> 
+                    <div class="col-12 col-md-9 pt-2 pt-md-0">
                         <div class="d-flex w-100 justify-content-between">
                             <h4 class="mb-1">`+ product.name + `</h4>
                             <small class="text-muted">` + product.soldCount + ` artículos</small>
@@ -30,11 +30,11 @@ const filterConfig = [
         clickId: "sortByPriceUp",
         action: (list) => {
             list.sort({
-                key:{
+                key: {
                     name: "cost",
                     type: Number
                 },
-                mode:ORDER_ASC
+                mode: ORDER_ASC
             });
         }
     },
@@ -42,11 +42,11 @@ const filterConfig = [
         clickId: "sortByPriceDown",
         action: (list) => {
             list.sort({
-                key:{
+                key: {
                     name: "cost",
                     type: Number
                 },
-                mode:ORDER_DESC
+                mode: ORDER_DESC
             });
         }
     },
@@ -54,11 +54,11 @@ const filterConfig = [
         clickId: "sortBySold",
         action: (list) => {
             list.sort({
-                key:{
+                key: {
                     name: "soldCount",
                     type: Number
                 },
-                mode:ORDER_DESC
+                mode: ORDER_DESC
             });
         }
     },
@@ -86,6 +86,7 @@ const filterConfig = [
         action: (list) => {
             document.getElementById('rangeFilterCountMin').value = "";
             document.getElementById('rangeFilterCountMax').value = "";
+            document.getElementById('searchTextInput').value = "";
             list.reset();
         }
     }

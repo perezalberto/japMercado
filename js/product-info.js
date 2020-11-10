@@ -109,6 +109,7 @@ let setBtnAddToCart = (data) => {
             count: 1,
             price: data.cost
         });
+        window.location.href = "cart.html";
     });
 }
 

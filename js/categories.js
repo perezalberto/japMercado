@@ -5,12 +5,12 @@ function showCategoriesList(data) {
         let category = data[i];
 
         htmlContentToAppend += `
-            <a href="category-info.html" class="list-group-item list-group-item-action">Z
+            <a href="category-info.html" class="list-group-item list-group-item-action">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-12 col-md-3">
                         <img src="` + category.imgSrc + `" alt="` + category.description + `" class="img-thumbnail">
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-9 pt-2 pt-md-0">
                         <div class="d-flex w-100 justify-content-between">
                             <h4 class="mb-1">`+ category.name + `</h4>
                             <small class="text-muted">` + category.productCount + ` artículos</small>

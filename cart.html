@@ -18,48 +18,206 @@
 </head>
 
 <body>
-    <nav class="site-header sticky-top py-1 bg-dark">
-        <div class="container d-flex flex-column flex-md-row justify-content-between">
-            <a class="py-2 d-none d-md-inline-block" href="index.html">Inicio</a>
-            <a class="py-2 d-none d-md-inline-block" href="categories.html">Categorías</a>
-            <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
-            <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
-            <a class="py-2 d-none d-md-inline-block text-white dropdown-toggle" id="dropdownUserMenu"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                <i class="fas fa-user mx-1"></i>
-                <span id="username"></span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
-                <a class="dropdown-item" id="profile" href="#">Mi perfil</a>
-                <a class="dropdown-item" id="cart" href="#">Mi carrito</a>
-                <a class="dropdown-item" id="logout" href="#">Log out</a>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark py-1 bg-dark">
+        <a class="navbar-brand" href="index.html">
+            <img src="/img/icon.svg" width="30" height="30" alt="" loading="lazy">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto nav-fill w-100">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="categories.html">Categorías</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sell.html">Vender</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="py-2 d-inline-block text-white dropdown-toggle" id="dropdownUserMenu"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                        <i class="fas fa-user mx-1"></i>
+                        <span id="username"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
+                        <a class="dropdown-item" id="profile" href="my-profile.html">Mi perfil</a>
+                        <a class="dropdown-item" id="cart" href="cart.html">Mi carrito</a>
+                        <a class="dropdown-item" id="logout" href="#">Log out</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
-    <div class="container p-5">
-        <h1>Lista de compra</h1>
-        <div class="row">
-            <div class="col-12">
-                <h5>Carrito (<span id="product-count">0</span> produto/s)</h5>
-                <table class="table table-hover" id="product-list">
-                    <thead>
-                        <tr>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th style="min-width: 120px; width: 150px;">Cantidad</th>
-                            <th>Valor Unitario</th>
-                            <th>Subtotal</th>
-                            <th>eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <div class="container py-5">
+        <h2>Lista de compra</h2>
+        <h5>Carrito (<span id="product-count">0</span> produto/s)</h5>
+        <div id="product-list" class="col-12 p-0">
+        </div>
+    </div>
+    <div class="container">
+        <form id="cartForm">
+            <fieldset class="form-group border p-3" id="shippingType">
+                <div class="row">
+                    <legend class="col-form-label col-md-2 pt-0">Tipo de envio</legend>
+                    <div class="col-md-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="shippingType" id="premium"
+                                value="premium" checked>
+                            <label class="form-check-label" for="premium">
+                                Premium 2 a 5 dias (15%)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="shippingType" id="express"
+                                value="express">
+                            <label class="form-check-label" for="express">
+                                Express 5 a 8 dias (7%)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="shippingType" id="standard"
+                                value="standard">
+                            <label class="form-check-label" for="standard">
+                                Standard 12 a 15 dias (5%)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
 
-                    </tbody>
-                </table>
+            <fieldset class="form-group border p-3">
+                <div class="row">
+                    <legend class="col-form-label col-md-2 pt-0">Dirección de envío</legend>
+                    <div class="col-md-10">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputStreet">Calle</label>
+                                <input type="text" class="form-control" id="inputStreet" placeholder="Calle" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputNumber">Número</label>
+                                <input type="text" class="form-control" id="inputNumber" placeholder="Número" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputStInt">Esquina</label>
+                            <input type="text" class="form-control" id="inputStInt" placeholder="Esquina" required>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-group border p-3" id="costs">
+                <div class="row">
+                    <legend class="col-form-label col-md-2 pt-0">Costos</legend>
+                    <div class="col-md-10">
+                        <div class="d-flex justify-content-between p-2 border-bottom">
+                            <div>
+                                <p class="p-0 m-0">Subtotal</p>
+                                <small class="text-muted font-italic">Costo unitario del producto por cantidad</small>
+                            </div>
+                            <div id="subtotal">0</div>
+                        </div>
+                        <div class="d-flex justify-content-between p-2 border-bottom">
+                            <div>
+                                <p class="p-0 m-0">costo de envío</p>
+                                <small class="text-muted font-italic">Según el tipo de envío</small>
+                            </div>
+                            <div id="shippingCost">0</div>
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <div>
+                                <p class="p-0 m-0 font-weight-bold">Total ($)</p>
+                            </div>
+                            <div id="total" class="font-weight-bold">0</div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-group border p-3">
+                <div class="row">
+                    <legend class="col-form-label col-md-2 pt-0">Forma de pago</legend>
+                    <div class="col-md-10 d-flex justify-content-start align-items-center">
+                        <span id="paymentMethod" class="w-auto pr-3">No ha seleccionado</span>
+                        <a href="#" data-toggle="modal" data-target="#modalPaymentMethod">Seleccionar</a>
+                        <span id="paymentMethodMessage" class="w-auto pl-3 d-none text-danger">
+                            Debe seleccionar un método de pago para continuar
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group border p-3">
+                <input type="submit" value="FINALIZAR COMPRA" class="btn btn-primary">
             </div>
-            <div class="col-12 border p-4 mt-1">
-                <p class="mb-0">Total: UYU <span id="total"></span></p>
-            </div>
+        </form>
+
+        <div class="modal fade" id="modalPaymentMethod" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <form id="paymentMethodForm">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Selecciona el método de pago</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="shippingMethod" id="creditCardMode"
+                                    value="1" checked required>
+                                <label class="form-check-label" for="creditCardMode">
+                                    Targeta de credito
+                                </label>
+                                <div class="form-group py-2">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-9">
+                                            <label for="cardNumber">Numero de targeta</label>
+                                            <input type="text" class="form-control" id="cardNumber"
+                                                placeholder="···· ···· ···· ····" required>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="cardSecurityCode">CVC</label>
+                                            <input type="text" class="form-control" id="cardSecurityCode"
+                                                placeholder="CVC" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="expirationDate">Vencimiento</label>
+                                        <input type="text" class="form-control" id="expirationDate" placeholder="MM/AA"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="shippingMethod" id="bankTransferMode"
+                                    value="2" required>
+                                <label class="form-check-label" for="bankTransferMode">
+                                    Transferencia bancaria
+                                </label>
+                                <div class="form-group py-2">
+                                    <label for="bankAccountNumber">Número de cuenta</label>
+                                    <input type="text" class="form-control" id="bankAccountNumber" placeholder=""
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">SALIR</button>
+                            <button type="submit" class="btn btn-primary">SELECCIONAR</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div id="spinner-wrapper">

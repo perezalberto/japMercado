@@ -5,39 +5,50 @@ function showCartList(data) {
         let unitCostUYU = product.currency == 'USD' ? product.unitCost * DOLAR_UYU : product.unitCost;
 
         htmlContentToAppend += `
-            <tr id="cart-item:${i}">
-                <td class="align-middle">
-                    <img src="${product.src}" alt="${product.name}" class="img-fluid" width="100">
-                </td>
-                <td class="align-middle">${product.name}</td>
-                <td class="align-middle text-center">
-                    <div class="input-group numericUpDown">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary btnDown" type="button">-</button>
+        <div id="product:${i}" class="list-group-item list-group-item-action">
+            <div class="row justify-content-center align-items-center cart-item">
+                <div class="col-12 col-lg">
+                    <img src="${product.src}" alt="${product.name}" class="img-thumbnail w-100 w-lg-auto">
+                </div>
+                <div class="col-12 col-lg p-4">
+                <b>${product.name}</b>
+                </div>
+                <div class="col-lg-3 col-12">
+                    <div class="d-flex">
+                        <div class="col pr-1 pl-3">
+                            <div class="input-group numericUpDown" style="min-width:100px">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-secondary btnDown" type="button">-</button>
+                                </div>
+                                <span class="form-control text-right bg-transparent border-secondary textValue">${product.count}</span>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary btnUp" type="button">+</button>
+                                </div>
+                            </div>
                         </div>
-                        <span class="form-control text-right textValue">${product.count}</span>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary btnUp" type="button">+</button>
+                        <div class="pr-3 pl-1">
+                            <button class="btn btn-outline-danger remove-product d-block" type="button">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </div>
                     </div>
-                </td>
-                <td class="align-middle text-center unit-price">
+                </div>
+                <div class="unit-price col-6 col-lg p-4 text-center">
+                    <b class="d-block d-lg-none">Precio unitario</b>
                     <span class="currency">UYU</span>
                     <span class="price">${unitCostUYU}</span>
-                </td>
-                <td class="align-middle text-center subtotal">
+                    <span class="d-none d-lg-inline">/u</span>
+                </div>
+                <div class="subtotal col-6 col-lg p-4 text-center">
+                    <b class="d-block d-lg-none">Total</b>
                     <span class="currency">UYU</span>
                     <span class="price">${unitCostUYU * product.count}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <button class="btn btn-outline-danger remove-product" type="button">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
-            </tr>
-            `
+                </div>
+            </div>
+        </div>
+        `;
     }
-    document.querySelector("#product-list tbody").innerHTML = htmlContentToAppend;
+    document.querySelector("#product-list").innerHTML = htmlContentToAppend;
 }
 
 function removeProductCart(id) {
@@ -60,23 +71,23 @@ function updateProductCart(id, { image, currency, name, count, price }) {
     localStorage.setItem('cart', JSON.stringify(tempList));
 }
 
-function startRemoveButtons() {
+function initRemoveButtons() {
     document.addEventListener('click', (e) => {
-        if (e.target && e.target.matches('tr .remove-product, tr .remove-product *')) {
-            e.target.closest("tr").remove();
+        if (e.target && e.target.matches('div.cart-item .remove-product, div.cart-item .remove-product *')) {
+            const productItemElement = e.target.closest("div.cart-item");
+            productItemElement.remove();
 
-            const productId = e.target.closest("tr").id.split(':')[1];
-
+            const productId = productItemElement.id.split(':')[1];
             removeProductCart(productId);
         }
     });
 }
 
-function startProductRow(listener) {
+function initProductRow(listener) {
     document.addEventListener('click', (e) => {
         if (!e.target) return;
-        if (e.target.matches('tr .remove-product, tr .remove-product *') || e.target.matches('tr .numericUpDown .btnDown, tr .numericUpDown .btnUp')) {
-            listener(e.target.closest("tr"));
+        if (e.target.matches('div.cart-item .remove-product, div.cart-item .remove-product *') || e.target.matches('div.cart-item .numericUpDown .btnDown, div.cart-item .numericUpDown .btnUp')) {
+            listener(e.target.closest("div.cart-item"));
         }
     });
 }
@@ -89,26 +100,64 @@ function updateProductRow(target) {
     const productId = target.id.split(':')[1];
 
     updateProductCart(productId, { count: count.innerHTML });
-
     subtotal.innerHTML = unitPrice.innerHTML * count.innerHTML;
 }
 
 function updateProductCount() {
     const productCount = document.getElementById('product-count');
-    const productList = document.querySelectorAll('table#product-list tbody>tr');
+    const productList = document.querySelectorAll('#product-list div.cart-item');
     productCount.innerHTML = productList.length;
 }
 
 function updateTotal() {
     let sum = 0;
-    const total = document.getElementById('total');
-    const productList = document.querySelectorAll('table#product-list tbody>tr');
+    const subtotal = document.querySelector('#costs #subtotal');
+    const shippingCost = document.querySelector('#costs #shippingCost');
+    const total = document.querySelector('#costs #total');
+
+    const productList = document.querySelectorAll('#product-list div.cart-item');
     productList.forEach((item) => {
         sum += +item.querySelector(".subtotal .price").innerHTML || 0
     });
-    total.innerHTML = sum;
+
+
+    const getShippingType = () => {
+        var type = document.getElementsByName('shippingType');
+        for (var i = 0; i < type.length; i++) {
+            if (type[i].checked) {
+                return type[i].value;
+            }
+        }
+    };
+
+    const updateCosts = () => {
+        switch (getShippingType()) {
+            case 'premium':
+                shippingCost.innerHTML = "UYU" + (sum * 0.15).toFixed(2);
+                total.innerHTML = "UYU " + (sum + sum * 0.15).toFixed(2);
+                break;
+            case 'express':
+                shippingCost.innerHTML = "UYU" + (sum * 0.07).toFixed(2);
+                total.innerHTML = "UYU " + (sum + sum * 0.07).toFixed(2);
+                break;
+            case 'standard':
+                shippingCost.innerHTML = "UYU" + (sum * 0.05).toFixed(2);
+                total.innerHTML = "UYU " + (sum + sum * 0.05).toFixed(2);
+                break;
+        }
+    }
+    updateCosts()
+    document.querySelector('#shippingType #premium').addEventListener('change', updateCosts);
+    document.querySelector('#shippingType #express').addEventListener('change', updateCosts);
+    document.querySelector('#shippingType #standard').addEventListener('change', updateCosts);
+
+    subtotal.innerHTML = "UYU " + sum.toFixed(2);
 }
 
+/**
+ * Obtiene los datos desde el localstorage, en caso de no existir se buscaran desde una ubicación externa,
+ * 
+ */
 function getCartData() {
     return new Promise((resolve, reject) => {
         if (!!localStorage['cart']) {
@@ -124,22 +173,128 @@ function getCartData() {
     });
 }
 
+/**
+ * Inicializa eventos encargados del funcionamiento del formulario de método de pago
+ */
+function initPaymentMethodModalForm() {
+    const modalForm = document.querySelector("#paymentMethodForm");
+    const radioBtnCreditCardMode = modalForm.querySelector("#creditCardMode");
+    const radioBtnBankTransferMode = modalForm.querySelector("#bankTransferMode");
+
+    const activeCreditCardMode = (active) => {
+        const cardNumber = modalForm.querySelector("#cardNumber");
+        const cardSecurityCode = modalForm.querySelector("#cardSecurityCode");
+        const expirationDate = modalForm.querySelector("#expirationDate");
+        if (!!active) {
+            cardNumber.removeAttribute("disabled");
+            cardSecurityCode.removeAttribute("disabled");
+            expirationDate.removeAttribute("disabled");
+        } else {
+            cardNumber.setAttribute("disabled", "");
+            cardSecurityCode.setAttribute("disabled", "");
+            expirationDate.setAttribute("disabled", "");
+        }
+    }
+
+    const activeBankTransferMode = (active) => {
+        const bankAccountNumber = modalForm.querySelector("#bankAccountNumber");
+
+        if (!!active) {
+            bankAccountNumber.setAttribute("required", "");
+            bankAccountNumber.removeAttribute("disabled");
+        } else {
+            bankAccountNumber.removeAttribute("required");
+            bankAccountNumber.setAttribute("disabled", "");
+        }
+    }
+
+    const updateFormState = () => {
+        if (radioBtnCreditCardMode.checked) {
+            activeCreditCardMode(true);
+            activeBankTransferMode(false);
+        } else if (radioBtnBankTransferMode.checked) {
+            activeCreditCardMode(false);
+            activeBankTransferMode(true);
+        }
+    }
+    updateFormState();
+    radioBtnCreditCardMode.addEventListener('change', updateFormState);
+    radioBtnBankTransferMode.addEventListener('change', updateFormState);
+}
+
+/**
+ * inicializa evento submit del formulario del método de pago
+ */
+function initPaymentMethod() {
+    const modalForm = document.querySelector("#paymentMethodForm");
+    const radioBtnCreditCardMode = modalForm.querySelector("#creditCardMode");
+    const radioBtnBankTransferMode = modalForm.querySelector("#bankTransferMode");
+    document.getElementById("paymentMethodForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const paymentMethodValue = document.getElementById("paymentMethod");
+        const paymentMethodMessage = document.getElementById("paymentMethodMessage");
+        if (radioBtnCreditCardMode.checked) {
+            paymentMethodValue.innerHTML = "Tarjeta de crédito";
+            paymentMethodValue.setAttribute("data-paymentmethod", "card");
+            paymentMethodMessage.classList.add("d-none");
+        } else if (radioBtnBankTransferMode.checked) {
+            paymentMethodValue.innerHTML = "Transferencia bancaria";
+            paymentMethodValue.setAttribute("data-paymentmethod", "transfer");
+            paymentMethodMessage.classList.add("d-none");
+        }
+        $("#modalPaymentMethod").modal('hide');
+    });
+}
+
+
+/**
+ * Inicializa eventos relacionados el formulario del carrito
+ */
+function initCartForm() {
+    const cartForm = document.getElementById("cartForm");
+
+    const paymentMethodValue = document.getElementById("paymentMethod");
+    const paymentMethodMessage = document.getElementById("paymentMethodMessage");
+
+    cartForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = paymentMethodValue.getAttribute("data-paymentmethod");
+        if (!value) {
+            paymentMethodMessage.classList.remove("d-none");
+        } else {
+            showAlert("Compra realizada con éxito", "success");
+        }
+    });
+}
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
 
+    //--------------------------------------------------------------------------//
+
+    function consoleWithNoSource(...params) {
+        setTimeout(console.log.bind(console, ...params));
+    }
+    consoleWithNoSource("%cPara reiniciar el listado de productos utilizar el comando:", "background:#FFEB3B;padding:1rem;border-radius:6px");
+    consoleWithNoSource("%c►%clocalStorage.setItem('cart',[]);", "color:#FFA000;padding:0.4rem;", "padding:0.4rem");
+
+    //--------------------------------------------------------------------------//
+
     getCartData().then(data => {
         showCartList(data);
-
-        startRemoveButtons();
+        initRemoveButtons();
         updateProductCount();
         updateTotal();
 
-        startProductRow((target) => {
+        initProductRow((target) => {
             updateProductRow(target);
             updateProductCount();
             updateTotal();
         });
     });
+    initCartForm();
+    initPaymentMethod();
+    initPaymentMethodModalForm();
 });
