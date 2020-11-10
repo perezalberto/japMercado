@@ -5,8 +5,8 @@ function showCartList(data) {
         let unitCostUYU = product.currency == 'USD' ? product.unitCost * DOLAR_UYU : product.unitCost;
 
         htmlContentToAppend += `
-        <div id="product:${i}" class="list-group-item list-group-item-action">
-            <div class="row justify-content-center align-items-center cart-item">
+        <div id="product:${i}" class="list-group-item list-group-item-action cart-item">
+            <div class="row justify-content-center align-items-center">
                 <div class="col-12 col-lg">
                     <img src="${product.src}" alt="${product.name}" class="img-thumbnail w-100 w-lg-auto">
                 </div>
@@ -86,7 +86,8 @@ function initRemoveButtons() {
 function initProductRow(listener) {
     document.addEventListener('click', (e) => {
         if (!e.target) return;
-        if (e.target.matches('div.cart-item .remove-product, div.cart-item .remove-product *') || e.target.matches('div.cart-item .numericUpDown .btnDown, div.cart-item .numericUpDown .btnUp')) {
+        if (e.target.matches('div.cart-item .remove-product, div.cart-item .remove-product *') ||
+            e.target.matches('div.cart-item .numericUpDown .btnDown, div.cart-item .numericUpDown .btnUp')) {
             listener(e.target.closest("div.cart-item"));
         }
     });
